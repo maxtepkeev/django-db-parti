@@ -133,11 +133,11 @@ Django DB Parti is designed in a modular way, so new db backends can be added ea
 Limitations
 -----------
 
-1) Partitioning is only possible on a date or datetime basis, so you can't partition for example by ZIP code or something else.
+#) Partitioning is only possible on a date or datetime basis, so you can't partition for example by ZIP code or something else.
 Other partitioning options will be added in next releases.
-2) Partitioning is not available for bulk inserts (i.e. Django's bulk_create() method) becouse it doesn't call model's save()
+#) Partitioning is not available for bulk inserts (i.e. Django's bulk_create() method) becouse it doesn't call model's save()
 method which Django DB Parti relies on.
-3) Perhaps there are more limitations that I'm not aware of, if you find any - let me know.
+#) Perhaps there are more limitations that I'm not aware of, if you find any - let me know.
 
 Contact & Support
 -----------------
