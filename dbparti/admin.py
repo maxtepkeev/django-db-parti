@@ -6,6 +6,7 @@ class PartitionableAdmin(DateTimeMixin, admin.ModelAdmin):
     partition_show = 'all'
 
     def __init__(self, *args, **kwargs):
+        """Initializes all the parent classes"""
         admin.ModelAdmin.__init__(self, *args, **kwargs)
         DateTimeMixin.__init__(
             self,
@@ -16,6 +17,7 @@ class PartitionableAdmin(DateTimeMixin, admin.ModelAdmin):
         )
 
     def queryset(self, request):
+        """Determines data from what partitions should be shown in django admin"""
         fday, lday = self.get_partition_show_period(self.get_datetime_string('date'))
         qs = super(PartitionableAdmin, self).queryset(request)
 

@@ -6,6 +6,7 @@ class DateTimeMixin(object):
     PARTITION_RANGES = ('month', 'week')
 
     def __init__(self, partition_show, partition_range, partition_column_val, partition_column_type):
+        """Initializes all the datetime logic needed for datetime partitioning"""
         self.partition_show = partition_show if partition_show else self.PARTITION_SHOWS[0]
         self.partition_range = partition_range if partition_range else self.PARTITION_RANGES[0]
         self.partition_column_val = partition_column_val
@@ -34,18 +35,23 @@ class DateTimeMixin(object):
             if self.partition_column_val is not None else datetype
 
     def get_datetype(self):
+        """Returns the current datetype (date or time)"""
         return self.datetype
 
     def get_datetime_string(self, dttype):
+        """Returns datetime string compatible with strftime depending on datetype"""
         return self.datestring if dttype == 'date' else self.timestring
 
     def get_partition_name(self):
+        """Returns partition name depending on the current workdate"""
         return '_' + self.workdate.strftime(getattr(self, 'partition_name_for_' + self.partition_range)())
 
     def get_partition_range_period(self, timestring):
+        """Returns partition period start and end depending on the current workdate and datetype"""
         return getattr(self, 'partition_period_for_' + self.partition_range)(self.workdate, timestring)
 
     def get_partition_show_period(self, timestring):
+        """Returns partition period start and end for the django admin"""
         if self.partition_show == 'all':
             return None, None
         elif self.partition_show == 'previous':
@@ -61,14 +67,17 @@ class DateTimeMixin(object):
 
     @classmethod
     def partition_name_for_week(cls):
+        """Returns strftime compatible partition name part for week partition range"""
         return 'y%Yw%V'
 
     @classmethod
     def partition_name_for_month(cls):
+        """Returns strftime compatible partition name part for month partition range"""
         return 'y%Ym%m'
 
     @classmethod
     def partition_period_for_week(cls, today, timestring):
+        """Returns partition period start and end for week partition range"""
         dt = datetime(today.year, 1, 1)
 
         if dt.weekday() > 3:
@@ -84,6 +93,7 @@ class DateTimeMixin(object):
 
     @classmethod
     def partition_period_for_month(cls, today, timestring):
+        """Returns partition period start and end for month partition range"""
         fday = datetime(today.year, today.month, 1).strftime(timestring)
         lday = (datetime(today.year, today.month + 1, 1) - timedelta(days=1)).strftime(timestring)
         return fday, lday

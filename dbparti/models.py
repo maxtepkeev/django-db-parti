@@ -6,6 +6,7 @@ models.options.DEFAULT_NAMES += ('partition_range', 'partition_column')
 
 class Partitionable(DateTimeMixin, models.Model):
     def __init__(self, *args, **kwargs):
+        """Initializes all the parent classes and the current database backend"""
         models.Model.__init__(self, *args, **kwargs)
         DateTimeMixin.__init__(
             self,
@@ -20,6 +21,7 @@ class Partitionable(DateTimeMixin, models.Model):
                 self._meta.db_table, self._meta.partition_column)
 
     def save(self, *args, **kwargs):
+        """Determines into what partition the data should be saved"""
         fday, lday = self.get_partition_range_period(self.get_datetime_string('date'))
 
         if not self.db.partition_exists(self.get_partition_name()):

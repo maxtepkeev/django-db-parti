@@ -54,10 +54,16 @@ to::
         partition_range = 'month'
         partition_column = 'partdate'
 
+\4) Lastly we need to initialize some database stuff, to do that execute the following command::
+
+    python manage.py partition app_name
+
 That's it! Easy right?! Now a few words about what we just did. We made our model to inherit from Partitionable, also we
 used "month" as partition range and "partdate" as partition column, that means that from now on, a new partition will be
-created every month and a value from partdate column will be used for that. You can also customize how data from that model
-will be displayed in the Django admin interface, for that you need to do the following:
+created every month and a value from partdate column will be used to determine into what partition the data should be saved.
+Keep in mind that if you add new partitioned models to your apps or change any settings in the existing partitioned models,
+you need to rerun the command from step 4, otherwise the database won't know about your changes. You can also customize how
+data from that model will be displayed in the Django admin interface, for that you need to do the following:
 
 \1) In admin.py add the following import statement at the top of the file::
 
@@ -127,8 +133,11 @@ Django DB Parti is designed in a modular way, so new db backends can be added ea
 Limitations
 -----------
 
-Currently partitioning is only possible on a date basis, so you can't partition for example by ZIP code or something else. Other
-partitioning options will be added in next releases.
+\1) Partitioning is only possible on a date or datetime basis, so you can't partition for example by ZIP code or something else.
+Other partitioning options will be added in next releases.
+\2) Partitioning is not available for bulk inserts (i.e. Django's bulk_create() method) becouse it doesn't call model's save()
+method which Django DB Parti relies on.
+\3) Perhaps there are more limitations that I'm not aware of, if you find any - let me know.
 
 Contact & Support
 -----------------
