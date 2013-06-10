@@ -18,14 +18,14 @@ class Partitionable(DateTimeMixin, models.Model):
 
         self.db = getattr(__import__('dbparti.backends.' + connection.vendor,
             fromlist=[connection.vendor.capitalize()]), connection.vendor.capitalize())(
-                self._meta.db_table, self._meta.partition_column)
+                self._meta.db_table, self._meta.partition_column, self.get_datetype())
 
     def save(self, *args, **kwargs):
         """Determines into what partition the data should be saved"""
         fday, lday = self.get_partition_range_period(self.get_datetime_string('date'))
 
         if not self.db.partition_exists(self.get_partition_name()):
-            self.db.create_partition(self.get_partition_name(), self.get_datetype(), fday, lday)
+            self.db.create_partition(self.get_partition_name(), fday, lday)
 
         super(Partitionable, self).save(*args, **kwargs)
 

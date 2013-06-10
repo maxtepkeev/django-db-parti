@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-db-parti',
-    version='0.1.5',
+    version='0.2.0',
     packages=find_packages(),
     url='https://github.com/maxtepkeev/django-db-parti',
     license=open('LICENSE').read(),

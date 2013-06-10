@@ -1,11 +1,17 @@
 from django.db import connection, transaction
 
+"""
+PostgreSQL backend for Django DB Parti.
 
+PostgreSQL partitioning is quit flexible, so if you can choose between database types,
+PostgreSQL will be the best available choice for partitioned tables.
+"""
 class Postgresql(object):
-    def __init__(self, table, partition_column):
+    def __init__(self, table, partition_column, datetype):
         self.table = table
         self.cursor = connection.cursor()
         self.partition_column = partition_column
+        self.datetype = datetype
 
     def partition_exists(self, partition_name):
         """Checks whether partition exists"""
@@ -13,7 +19,7 @@ class Postgresql(object):
             (self.table + partition_name,))
         return self.cursor.fetchone()[0]
 
-    def create_partition(self, partition_name, datetype, fday, lday):
+    def create_partition(self, partition_name, fday, lday):
         """Creates partition with the given parameters"""
         self.cursor.execute('''
             -- We need to create a table first
@@ -29,7 +35,7 @@ class Postgresql(object):
             partition_column=self.partition_column,
             fday=fday,
             lday=lday,
-            datetype='DATE' if datetype == 'date' else 'TIMESTAMP',
+            datetype='DATE' if self.datetype == 'date' else 'TIMESTAMP',
         ))
 
         transaction.commit_unless_managed()

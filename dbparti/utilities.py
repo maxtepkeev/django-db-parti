@@ -24,15 +24,12 @@ class DateTimeMixin(object):
 
         if partition_column_type == 'DateField':
             self.datetype = 'date'
-            dtstring = self.datestring
-            datetype = datetime.now().date()
+            self.workdate = datetime.strptime(str(self.partition_column_val), self.datestring).date() \
+                if self.partition_column_val is not None else datetime.now().date()
         else:
             self.datetype = 'time'
-            dtstring = self.timestring
-            datetype = datetime.now()
-
-        self.workdate = datetime.strptime(str(self.partition_column_val), dtstring) \
-            if self.partition_column_val is not None else datetype
+            self.workdate = datetime.strptime(str(self.partition_column_val), self.timestring) \
+                if self.partition_column_val is not None else datetime.now()
 
     def get_datetype(self):
         """Returns the current datetype (date or time)"""

@@ -3,6 +3,12 @@
 Changelog
 ---------
 
+0.2.0 (2013-06-10)
+~~~~~~~~~~~~~~~~~~
+
+- Added mysql backend
+- Fixed incorrect handling of datetime object in DateTimeMixin
+
 0.1.5 (2013-06-08)
 ~~~~~~~~~~~~~~~~~~
 

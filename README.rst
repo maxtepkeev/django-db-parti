@@ -128,6 +128,7 @@ Backends
 
 Django DB Parti is designed in a modular way, so new db backends can be added easily, currently the following backends are available:
 
+* mysql
 * postgresql
 
 Limitations
@@ -137,7 +138,8 @@ Limitations
      Other partitioning options will be added in next releases.
 | 2) Partitioning is not available for bulk inserts (i.e. Django's bulk_create() method) becouse it doesn't call model's save()
      method which Django DB Parti relies on.
-| 3) Perhaps there are more limitations that I'm not aware of, if you find any - let me know.
+| 3) There are some backend limitations for partitioned tables, please see the backend site for details.
+| 4) Perhaps there are more limitations that I'm not aware of, if you find any - let me know.
 
 Contact & Support
 -----------------
