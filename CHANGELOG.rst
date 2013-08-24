@@ -3,6 +3,13 @@
 Changelog
 ---------
 
+0.2.1 (2013-08-24)
+~~~~~~~~~~~~~~~~~~
+
+- Updated readme
+- Python 3 compatibility
+- Datetime with timezone support (Issue #1)
+
 0.2.0 (2013-06-10)
 ~~~~~~~~~~~~~~~~~~
 
@@ -15,7 +22,7 @@ Changelog
 - Updated readme
 - Fixed postgresql backend error which sometimes tried to insert the data into partitions that don't exist
 - Moved all the database partition system stuff to the command ``partition`` (see readme), that gave a lot
-  in speed improvement becouse we don't need to check for trigger existance and some other things at runtime
+  in speed improvement because we don't need to check for trigger existance and some other things at runtime
   anymore
 
 0.1.4 (2013-06-01)

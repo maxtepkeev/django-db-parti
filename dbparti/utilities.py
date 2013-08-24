@@ -4,13 +4,18 @@ from datetime import datetime, timedelta
 class DateTimeMixin(object):
     PARTITION_SHOWS = ('all', 'current', 'previous')
     PARTITION_RANGES = ('month', 'week')
+    PARTITION_COLUMN_TYPES = {
+        'DateField': {'type': 'date', 'workdate': datetime.now().date()},
+        'DateTimeField': {'type': 'time', 'workdate': datetime.now()}
+    }
 
-    def __init__(self, partition_show, partition_range, partition_column_val, partition_column_type):
+    def __init__(self, **kwargs):
         """Initializes all the datetime logic needed for datetime partitioning"""
-        self.partition_show = partition_show if partition_show else self.PARTITION_SHOWS[0]
-        self.partition_range = partition_range if partition_range else self.PARTITION_RANGES[0]
-        self.partition_column_val = partition_column_val
-        self.partition_column_type = partition_column_type
+        self.partition_show = kwargs.get('partition_show', self.PARTITION_SHOWS[0])
+        self.partition_range = kwargs.get('partition_range', self.PARTITION_RANGES[0])
+
+        partition_column_val = kwargs.get('partition_column_val', None)
+        partition_column_type = kwargs.get('partition_column_type', 'Unknown')
 
         if self.partition_show not in self.PARTITION_SHOWS:
             raise Exception('Unknown partition show type "{0}", allowed types are: {1}'.format(
@@ -19,17 +24,13 @@ class DateTimeMixin(object):
             raise Exception('Unknown partition range type "{0}", allowed types are: {1}'.format(
                 self.partition_range, ', '.join(self.PARTITION_RANGES)))
 
-        self.datestring = '%Y-%m-%d'
-        self.timestring = '%Y-%m-%d %H:%M:%S.%f'
-
-        if partition_column_type == 'DateField':
-            self.datetype = 'date'
-            self.workdate = datetime.strptime(str(self.partition_column_val), self.datestring).date() \
-                if self.partition_column_val is not None else datetime.now().date()
-        else:
-            self.datetype = 'time'
-            self.workdate = datetime.strptime(str(self.partition_column_val), self.timestring) \
-                if self.partition_column_val is not None else datetime.now()
+        try:
+            self.datetype = self.PARTITION_COLUMN_TYPES[partition_column_type]['type']
+            self.workdate = partition_column_val if partition_column_val is not None else \
+                self.PARTITION_COLUMN_TYPES[partition_column_type]['workdate']
+        except KeyError:
+            raise Exception('Unknown partition column type "{0}", allowed types are: {1}'.format(
+                partition_column_type, ', '.join(list(self.PARTITION_COLUMN_TYPES.keys()))))
 
     def get_datetype(self):
         """Returns the current datetype (date or time)"""
@@ -37,7 +38,7 @@ class DateTimeMixin(object):
 
     def get_datetime_string(self, dttype):
         """Returns datetime string compatible with strftime depending on datetype"""
-        return self.datestring if dttype == 'date' else self.timestring
+        return '%Y-%m-%d' if dttype == 'date' else '%Y-%m-%d %H:%M:%S.%f'
 
     def get_partition_name(self):
         """Returns partition name depending on the current workdate"""

@@ -14,47 +14,63 @@ Requirements
 Installation
 ------------
 
-From pypi_::
+From pypi_:
+
+.. code-block:: bash
 
     $ pip install django-db-parti
 
-or clone from github_::
+or clone from github_:
+
+.. code-block:: bash
 
     $ git clone git://github.com/maxtepkeev/django-db-parti.git
 
 Configuration
 -------------
 
-Add dbparti to PYTHONPATH and installed applications::
+Add dbparti to PYTHONPATH and installed applications:
+
+.. code-block:: python
 
     INSTALLED_APPS = (
         ...
         'dbparti'
     )
 
-Create the model as usual which will represent the partitioned table, if you are using South
-for migrations, you can also create the model as usual. No additional steps required. After that
-we need to make a few changes to the model:
+Create the model as usual which will represent the partitioned table and run syncdb to create a table for the
+model, if you are using South for migrations, you can also create the model as usual via migrate. No additional
+steps required. After that we need to make a few changes to the model:
 
-\1) In models.py add the following import statement at the top of the file::
+\1) In models.py add the following import statement at the top of the file:
+
+.. code-block:: python
 
     from dbparti.models import Partitionable
 
-\2) Make your model to inherit from Partitionable, to do that change::
+\2) Make your model to inherit from Partitionable, to do that change:
+
+.. code-block:: python
 
     class YourModelName(models.Model):
 
-to::
+to:
+
+.. code-block:: python
 
     class YourModelName(Partitionable):
 
-\3) Optionally add a Meta class to your model with a few settings (or if you already have a Meta class change it as the following)::
+\3) Optionally add a Meta class to your model with a few settings (or if you already have a Meta class change it as the following):
+
+.. code-block:: python
 
     class Meta(Partitionable.Meta):
         partition_range = 'month'
         partition_column = 'partdate'
 
-\4) Lastly we need to initialize some database stuff, to do that execute the following command::
+\4) Lastly we need to initialize some database stuff, to do that execute the following command:
+
+.. code-block:: bash
 
     python manage.py partition app_name
 
@@ -65,19 +81,27 @@ Keep in mind that if you add new partitioned models to your apps or change any s
 you need to rerun the command from step 4, otherwise the database won't know about your changes. You can also customize how
 data from that model will be displayed in the Django admin interface, for that you need to do the following:
 
-\1) In admin.py add the following import statement at the top of the file::
+\1) In admin.py add the following import statement at the top of the file:
+
+.. code-block:: python
 
     from dbparti.admin import PartitionableAdmin
 
-\2) Create admin model as usual and then change::
+\2) Create admin model as usual and then change:
+
+.. code-block:: python
 
     class YourAdminModelName(admin.ModelAdmin):
 
-to::
+to:
+
+.. code-block:: python
 
     class YourAdminModelName(PartitionableAdmin):
 
-\3) Optionally add a setting which tells how records are displayed in Django admin interface (more on that below)::
+\3) Optionally add a setting which tells how records are displayed in Django admin interface (more on that below):
+
+.. code-block:: python
 
     partition_show = 'all'
 
@@ -119,7 +143,7 @@ every new record belongs to. To be more specific let's call our table "logdata",
 logdate. Now when we insert the following record: id='1', content='blablabla', logdate='2013-05-20', this record will be
 inserted not to our "logdata" table but to the "logdata_y2013m05", then if we insert another record like that: id='2',
 content='yadayadayada', logdate='2013-07-16' it will be inserted to the table "logdata_y2013m07" BUT the great thing about
-all of that is that you are doing your inserts/updates/selects to the table "logdata"! Again, your are working with the table
+all of that is that you are doing your inserts/updates/selects to the table "logdata"! Again, you are working with the table
 "logdata" as usual and you don't may even know that actually your data is stored in a lot of different tables, everything is
 done for you automatically at the database level, isn't that cool ?!
 

@@ -10,10 +10,9 @@ class Partitionable(DateTimeMixin, models.Model):
         models.Model.__init__(self, *args, **kwargs)
         DateTimeMixin.__init__(
             self,
-            False,
-            self._meta.partition_range,
-            getattr(self, self._meta.partition_column),
-            self._meta.get_field(self._meta.partition_column).get_internal_type(),
+            partition_range=self._meta.partition_range,
+            partition_column_val=getattr(self, self._meta.partition_column),
+            partition_column_type=self._meta.get_field(self._meta.partition_column).get_internal_type(),
         )
 
         self.db = getattr(__import__('dbparti.backends.' + connection.vendor,

@@ -10,10 +10,9 @@ class PartitionableAdmin(DateTimeMixin, admin.ModelAdmin):
         admin.ModelAdmin.__init__(self, *args, **kwargs)
         DateTimeMixin.__init__(
             self,
-            self.partition_show,
-            self.opts.partition_range,
-            None,
-            self.opts.get_field(self.opts.partition_column).get_internal_type(),
+            partition_show=self.partition_show,
+            partition_range=self.opts.partition_range,
+            partition_column_type=self.opts.get_field(self.opts.partition_column).get_internal_type(),
         )
 
     def queryset(self, request):
