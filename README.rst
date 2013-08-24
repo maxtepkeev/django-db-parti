@@ -72,7 +72,7 @@ to:
 
 .. code-block:: bash
 
-    python manage.py partition app_name
+    $ python manage.py partition app_name
 
 That's it! Easy right?! Now a few words about what we just did. We made our model to inherit from Partitionable, also we
 used "month" as partition range and "partdate" as partition column, that means that from now on, a new partition will be
