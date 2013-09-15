@@ -6,7 +6,7 @@ division of one large table into several smaller tables which represent that tab
 done for manageability, performance or availability reasons. If you are unsure whether you need partitioning
 or not, then you almost certainly don't need it.
 
-.. contents:: Table of contents
+.. contents:: Table of contents:
 
 Features
 --------
