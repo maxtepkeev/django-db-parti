@@ -31,10 +31,11 @@ Partitioning types
 ++++++++++++++++++
 
 * Range partitioning by date/datetime for the following periods:
-   - day
-   - week
-   - month
-   - year
+
+  - day
+  - week
+  - month
+  - year
 
 Limitations
 +++++++++++
@@ -57,10 +58,11 @@ Partitioning types
 ++++++++++++++++++
 
 * Range partitioning by date/datetime for the following periods:
-   - day
-   - week
-   - month
-   - year
+
+  - day
+  - week
+  - month
+  - year
 
 Limitations
 +++++++++++
