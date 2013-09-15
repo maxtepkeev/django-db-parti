@@ -1,34 +1,51 @@
-from django.db import models, connection
-from dbparti.utilities import DateTimeMixin
+from django.db import models
+from dbparti import backend
+from dbparti.backends.exceptions import PartitionColumnError, PartitionTypeError
 
 
-models.options.DEFAULT_NAMES += ('partition_range', 'partition_column')
+models.options.DEFAULT_NAMES += (
+    'partition_range',
+    'partition_column',
+    'partition_type',
+    'partition_subtype',
+    'partition_list',
+)
 
-class Partitionable(DateTimeMixin, models.Model):
+class Partitionable(models.Model):
     def __init__(self, *args, **kwargs):
-        """Initializes all the parent classes and the current database backend"""
-        models.Model.__init__(self, *args, **kwargs)
-        DateTimeMixin.__init__(
-            self,
-            partition_range=self._meta.partition_range,
-            partition_column_val=getattr(self, self._meta.partition_column),
-            partition_column_type=self._meta.get_field(self._meta.partition_column).get_internal_type(),
-        )
+        super(Partitionable, self).__init__(*args, **kwargs)
 
-        self.db = getattr(__import__('dbparti.backends.' + connection.vendor,
-            fromlist=[connection.vendor.capitalize()]), connection.vendor.capitalize())(
-                self._meta.db_table, self._meta.partition_column, self.get_datetype())
+        try:
+            column_value = getattr(self, self._meta.partition_column)
+            column_type = self._meta.get_field(self._meta.partition_column).get_internal_type()
+        except AttributeError:
+            raise PartitionColumnError(
+                model=self.__class__.__name__,
+                current_value=self._meta.partition_column,
+                allowed_values=self._meta.get_all_field_names()
+            )
+
+        try:
+            self.partition = getattr(backend.partition, '{}Partition'.format(
+                self._meta.partition_type.capitalize()))(column_value, column_type, **self._meta.__dict__)
+        except AttributeError:
+            import re
+            raise PartitionTypeError(
+                model=self.__class__.__name__,
+                current_value=self._meta.partition_type,
+                allowed_values=[c.replace('Partition', '').lower() for c in dir(
+                    backend.partition) if re.match('\w+Partition', c) is not None and 'Base' not in c]
+            )
 
     def save(self, *args, **kwargs):
-        """Determines into what partition the data should be saved"""
-        fday, lday = self.get_partition_range_period(self.get_datetime_string('date'))
-
-        if not self.db.partition_exists(self.get_partition_name()):
-            self.db.create_partition(self.get_partition_name(), fday, lday)
+        if not self.partition.exists():
+            self.partition.create()
 
         super(Partitionable, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True
-        partition_range = 'month'
-        partition_column = 'partdate'
+        partition_type = 'None'
+        partition_subtype = 'None'
+        partition_range = 'None'
+        partition_column = 'None'

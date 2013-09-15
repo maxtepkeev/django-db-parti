@@ -15,7 +15,7 @@ class Command(AppCommand):
                 names.append(model.__name__)
 
                 model_instance = model()
-                model_instance.db.init_partition(model._meta.partition_range)
+                model_instance.partition.prepare()
 
         if not names:
             self.stderr.write('Unable to find any partitionable models in an app: ' + app.__name__.split('.')[0])

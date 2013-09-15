@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-db-parti',
-    version='0.2.1',
+    version='0.3.0',
     packages=find_packages(),
     url='https://github.com/maxtepkeev/django-db-parti',
     license=open('LICENSE').read(),
@@ -17,11 +17,13 @@ setup(
     zip_safe=False,
     classifiers=[
         'Framework :: Django',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Topic :: Internet',
+        'Topic :: Database',
         'License :: OSI Approved :: BSD License',
         'Intended Audience :: Developers',
         'Environment :: Web Environment',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
     ],
 )
