@@ -31,10 +31,10 @@ Partitioning types
 ++++++++++++++++++
 
 * Range partitioning by date/datetime for the following periods:
-    - day
-    - week
-    - month
-    - year
+   - day
+   - week
+   - month
+   - year
 
 Limitations
 +++++++++++
@@ -57,10 +57,10 @@ Partitioning types
 ++++++++++++++++++
 
 * Range partitioning by date/datetime for the following periods:
-    - day
-    - week
-    - month
-    - year
+   - day
+   - week
+   - month
+   - year
 
 Limitations
 +++++++++++
@@ -108,13 +108,13 @@ Create the model as usual which will represent the partitioned table and run syn
 model, if you are using South for migrations, you can also create the model as usual via migrate. No additional
 steps required. After that we need to make a few changes to the model:
 
-\1) In models.py add the following import statement at the top of the file:
+| 1) In models.py add the following import statement at the top of the file:
 
 .. code-block:: python
 
     from dbparti.models import Partitionable
 
-\2) Make your model to inherit from Partitionable, to do that change:
+| 2) Make your model to inherit from Partitionable, to do that change:
 
 .. code-block:: python
 
@@ -126,9 +126,9 @@ to:
 
     class YourModelName(Partitionable):
 
-\3) Add a Meta class to your model which inherits from Partitionable.Meta with a few settings (or if you already
-    have a Meta class change it as the following, keep in mind that this is just an example configuration for a
-    model, you have to enter values which represent your exact situation):
+| 3) Add a Meta class to your model which inherits from Partitionable.Meta with a few settings (or if you already
+     have a Meta class change it as the following, keep in mind that this is just an example configuration for a
+     model, you have to enter values which represent your exact situation):
 
 .. code-block:: python
 
@@ -138,7 +138,7 @@ to:
         partition_range = 'month'
         partition_column = 'added'
 
-\4) Lastly we need to initialize some database stuff, to do that execute the following command:
+| 4) Lastly we need to initialize some database stuff, to do that execute the following command:
 
 .. code-block:: bash
 
@@ -152,13 +152,13 @@ any settings in the existing partitioned models, you need to rerun the command f
 won't know about your changes. You can also customize how data from that model will be displayed in the Django
 admin interface, for that you need to do the following:
 
-\1) In admin.py add the following import statement at the top of the file:
+| 1) In admin.py add the following import statement at the top of the file:
 
 .. code-block:: python
 
     from dbparti.admin import PartitionableAdmin
 
-\2) Create admin model as usual and then change:
+| 2) Create admin model as usual and then change:
 
 .. code-block:: python
 
@@ -170,7 +170,7 @@ to:
 
     class YourAdminModelName(PartitionableAdmin):
 
-\3) Add a setting inside ModelAdmin class which tells how records are displayed in Django admin interface:
+| 3) Add a setting inside ModelAdmin class which tells how records are displayed in Django admin interface:
 
 .. code-block:: python
 
@@ -200,7 +200,7 @@ All model settings are done inside model's Meta class which should inherit from 
 * month
 * year
 
-``partition_column`` - column name, which value will be used to determine which partition record belongs to
+``partition_column`` - column, which value will be used to determine which partition record belongs to
 
 ModelAdmin settings
 ~~~~~~~~~~~~~~~~~~~
