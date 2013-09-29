@@ -6,6 +6,12 @@ division of one large table into several smaller tables which represent that tab
 done for manageability, performance or availability reasons. If you are unsure whether you need partitioning
 or not, then you almost certainly don't need it.
 
+.. image:: https://badge.fury.io/py/django-db-parti.png
+    :target: http://badge.fury.io/py/django-db-parti
+
+.. image:: https://pypip.in/d/django-db-parti/badge.png
+    :target: https://crate.io/packages/django-db-parti
+
 .. contents:: Table of contents:
 
 Features
