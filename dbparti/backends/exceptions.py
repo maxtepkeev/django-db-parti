@@ -2,7 +2,7 @@ from dbparti import connection
 
 
 class BasePartitionError(Exception):
-    "Base exception class for backend exceptions"
+    """Base exception class for backend exceptions"""
     def __init__(self, message, **kwargs):
         self.message = message
         self.model = kwargs.get('model', None)
@@ -19,7 +19,7 @@ class BasePartitionError(Exception):
 
 
 class BackendError(BasePartitionError):
-    "Unsupported database backend"
+    """Unsupported database backend"""
     def __init__(self, **kwargs):
         super(BackendError, self).__init__(
             'Unsupported database backend "{vendor}", supported backends are: {allowed}',
@@ -28,7 +28,7 @@ class BackendError(BasePartitionError):
 
 
 class PartitionColumnError(BasePartitionError):
-    "Undefined partition column"
+    """Undefined partition column"""
     def __init__(self, **kwargs):
         super(PartitionColumnError, self).__init__(
             'Undefined partition column "{current}" in "{model}" model, available columns are: {allowed}',
@@ -37,7 +37,7 @@ class PartitionColumnError(BasePartitionError):
 
 
 class PartitionTypeError(BasePartitionError):
-    "Unsupported partition type"
+    """Unsupported partition type"""
     def __init__(self, **kwargs):
         super(PartitionTypeError, self).__init__(
             'Unsupported partition type "{current}" in "{model}" model, supported types for "{vendor}" backend are: {allowed}',
@@ -46,7 +46,7 @@ class PartitionTypeError(BasePartitionError):
 
 
 class PartitionFilterError(BasePartitionError):
-    "Unsupported partition filter"
+    """Unsupported partition filter"""
     def __init__(self, **kwargs):
         super(PartitionFilterError, self).__init__(
             'Unsupported partition filter "{current}" in "{model}" model, supported filters for "{vendor}" backend are: {allowed}',
@@ -55,7 +55,7 @@ class PartitionFilterError(BasePartitionError):
 
 
 class PartitionRangeError(BasePartitionError):
-    "Unsupported partition range"
+    """Unsupported partition range"""
     def __init__(self, **kwargs):
         super(PartitionRangeError, self).__init__(
             'Unsupported partition range "{current}" in "{model}" model, supported partition ranges for backend "{vendor}" are: {allowed}',
@@ -64,7 +64,7 @@ class PartitionRangeError(BasePartitionError):
 
 
 class PartitionRangeSubtypeError(BasePartitionError):
-    "Unsupported partition range subtype"
+    """Unsupported partition range subtype"""
     def __init__(self, **kwargs):
         super(PartitionRangeSubtypeError, self).__init__(
             'Unsupported partition range subtype "{current}" in "{model}" model, supported range subtypes for backend "{vendor}" are: {allowed}',
@@ -73,7 +73,7 @@ class PartitionRangeSubtypeError(BasePartitionError):
 
 
 class PartitionShowError(BasePartitionError):
-    "Unsupported partition show type"
+    """Unsupported partition show type"""
     def __init__(self, **kwargs):
         super(PartitionShowError, self).__init__(
             'Unsupported partition show type "{current}" in "{model}" admin class, supported partition show types for backend "{vendor}" are: {allowed}',
@@ -82,7 +82,7 @@ class PartitionShowError(BasePartitionError):
 
 
 class PartitionFunctionError(BasePartitionError):
-    "Unsupported partition function"
+    """Unsupported partition function"""
     def __init__(self, **kwargs):
         super(PartitionFunctionError, self).__init__(
             'Unsupported partition function for column type "{current}", supported column types for "{vendor}" backend are: {allowed}',
