@@ -11,10 +11,9 @@ models.options.DEFAULT_NAMES += (
     'partition_list',
 )
 
-class Partitionable(models.Model):
-    def __init__(self, *args, **kwargs):
-        super(Partitionable, self).__init__(*args, **kwargs)
 
+class Partitionable(models.Model):
+    def get_partition(self):
         try:
             column_value = getattr(self, self._meta.partition_column)
             column_type = self._meta.get_field(self._meta.partition_column).get_internal_type()
@@ -26,7 +25,7 @@ class Partitionable(models.Model):
             )
 
         try:
-            self.partition = getattr(backend.partition, '{}Partition'.format(
+            return getattr(backend.partition, '{}Partition'.format(
                 self._meta.partition_type.capitalize()))(column_value, column_type, **self._meta.__dict__)
         except AttributeError:
             import re
@@ -38,8 +37,10 @@ class Partitionable(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        if not self.partition.exists():
-            self.partition.create()
+        partition = self.get_partition()
+
+        if not partition.exists():
+            partition.create()
 
         super(Partitionable, self).save(*args, **kwargs)
 
