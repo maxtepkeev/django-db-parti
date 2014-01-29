@@ -8,7 +8,7 @@ class DateTimeUtil(object):
         self.now = now
         self.period = period
         self.format = format
-        self.model=model
+        self.model = model
 
     def get_name(self):
         """Returns name of the partition depending on the given date and period"""
@@ -39,10 +39,10 @@ class DateTimeUtil(object):
 
     def _get_day_period(self):
         """Returns beginning and an end for a day period"""
-        start = self.now.replace(hour=0, minute=0, second=0, microsecond=0).strftime(self.format)
-        end = self.now.replace(hour=23, minute=59, second=59, microsecond=999999).strftime(self.format)
+        start = self.now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = self.now.replace(hour=23, minute=59, second=59, microsecond=999999)
 
-        return start, end
+        return start.strftime(self.format), end.strftime(self.format)
 
     def _get_week_period(self):
         """Returns beginning and an end for a week period"""
@@ -55,21 +55,25 @@ class DateTimeUtil(object):
 
         days = timedelta(days=(int(self.now.strftime('%V')) - 1) * 7)
 
-        start = (date_ + days).strftime(self.format)
-        end = (date_ + days + timedelta(days=6)).replace(hour=23, minute=59, second=59, microsecond=999999).strftime(self.format)
+        start = (date_ + days)
+        end = (date_ + days + timedelta(days=6)).replace(hour=23, minute=59, second=59, microsecond=999999)
 
-        return start, end
+        return start.strftime(self.format), end.strftime(self.format)
 
     def _get_month_period(self):
         """Returns beginning and an end for a month period"""
-        fday = datetime(self.now.year, self.now.month, 1).strftime(self.format)
-        lday = (datetime(self.now.year, self.now.month + 1, 1, 23, 59, 59, 999999) - timedelta(days=1)).strftime(self.format)
+        fday = datetime(self.now.year, self.now.month, 1)
 
-        return fday, lday
+        if self.now.month == 12:
+            lday = datetime(self.now.year, self.now.month, 31, 23, 59, 59, 999999)
+        else:
+            lday = (datetime(self.now.year, self.now.month + 1, 1, 23, 59, 59, 999999) - timedelta(days=1))
+
+        return fday.strftime(self.format), lday.strftime(self.format)
 
     def _get_year_period(self):
         """Returns beginning and an end for a year period"""
-        fday = datetime(self.now.year, 1, 1).strftime(self.format)
-        lday = (datetime(self.now.year + 1, 1, 1, 23, 59, 59, 999999) - timedelta(days=1)).strftime(self.format)
+        fday = datetime(self.now.year, 1, 1)
+        lday = (datetime(self.now.year + 1, 1, 1, 23, 59, 59, 999999) - timedelta(days=1))
 
-        return fday, lday
+        return fday.strftime(self.format), lday.strftime(self.format)
