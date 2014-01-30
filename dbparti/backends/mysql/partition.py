@@ -49,6 +49,7 @@ class RangePartition(Partition):
     def prepare(self):
         """Converts original table to partitioned one"""
         super(RangePartition, self).prepare()
+        self.datetime.now = None
 
         self.cursor.execute("""
             -- We need to create zero partition to speed up things due to the partitioning

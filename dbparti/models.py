@@ -15,8 +15,9 @@ models.options.DEFAULT_NAMES += (
 class Partitionable(models.Model):
     def get_partition(self):
         try:
-            column_value = getattr(self, self._meta.partition_column)
-            column_type = self._meta.get_field(self._meta.partition_column).get_internal_type()
+            field = self._meta.get_field(self._meta.partition_column)
+            column_value = field.pre_save(self, self.pk is None)
+            column_type = field.get_internal_type()
         except AttributeError:
             raise PartitionColumnError(
                 model=self.__class__.__name__,
