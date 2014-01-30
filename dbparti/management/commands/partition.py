@@ -18,7 +18,7 @@ class Command(AppCommand):
                 model_instance.get_partition().prepare()
 
         if not names:
-            self.stderr.write('Unable to find any partitionable models in an app: ' + app.__name__.split('.')[0])
+            self.stderr.write('Unable to find any partitionable models in an app: ' + app.__name__.split('.')[0] + '\n')
         else:
             self.stdout.write(
                 'Successfully (re)configured the database for the following models: ' + ', '.join(names) + '\n'
