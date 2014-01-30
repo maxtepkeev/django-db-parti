@@ -3,9 +3,10 @@
 Changelog
 ---------
 
-0.4.0 (2014-02-XX)
+0.3.1 (2014-01-XX)
 ~~~~~~~~~~~~~~~~~~
 
+- Added support for DateField and DateTimeField with auto_now and auto_now_add attributes set
 - MySQL: Fixed inability to create partitions for December when range was set to ``month``
 - MySQL: Backend was completely broken in previous version, now everything should work properly
 
