@@ -1,10 +1,10 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 setup(
     name='django-db-parti',
-    version='0.3.0',
-    packages=find_packages(),
+    version='0.3.1',
+    packages=['dbparti'],
     url='https://github.com/maxtepkeev/django-db-parti',
     license=open('LICENSE').read(),
     author='Max Tepkeev',
@@ -13,7 +13,7 @@ setup(
     long_description=open('README.rst').read() + '\n\n' +
                      open('CHANGELOG.rst').read(),
     keywords='django,partition,database,table',
-    install_requires=['Django >= 1.5'],
+    install_requires=['Django >= 1.4'],
     zip_safe=False,
     classifiers=[
         'Framework :: Django',
@@ -24,6 +24,6 @@ setup(
         'Intended Audience :: Developers',
         'Environment :: Web Environment',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
     ],
 )

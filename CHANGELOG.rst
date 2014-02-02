@@ -3,12 +3,13 @@
 Changelog
 ---------
 
-0.3.1 (2014-01-XX)
+0.3.1 (2014-02-02)
 ~~~~~~~~~~~~~~~~~~
 
-- Added support for DateField and DateTimeField with auto_now and auto_now_add attributes set
+- Added support for DateField and DateTimeField with auto_now and auto_now_add attributes set (Issue #3)
+- Fixed an issue with unnecessary calling of partitioning functions while reading data from database
 - MySQL: Fixed inability to create partitions for December when range was set to ``month``
-- MySQL: Backend was completely broken in previous version, now everything should work properly
+- MySQL: Backend was completely broken in previous version, now everything should work properly (Issue #4)
 
 0.3.0 (2013-09-15)
 ~~~~~~~~~~~~~~~~~~

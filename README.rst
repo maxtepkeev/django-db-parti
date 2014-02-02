@@ -83,7 +83,7 @@ Limitations
 Requirements
 ------------
 
-* Django_ 1.5.x (may work with older versions, but untested)
+* Django_ >= 1.4.x
 
 Installation
 ------------
