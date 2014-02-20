@@ -85,7 +85,7 @@ class RangePartition(Partition):
     def _get_partition_function(self):
         """Dynamically loads needed before insert function body depending on the partition subtype"""
         try:
-            return getattr(self, '_get_{}_partition_function'.format(self.partition_subtype))()
+            return getattr(self, '_get_{0}_partition_function'.format(self.partition_subtype))()
         except AttributeError:
             import re
             raise PartitionRangeSubtypeError(

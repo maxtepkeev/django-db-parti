@@ -17,7 +17,7 @@ class PartitionableAdmin(admin.ModelAdmin):
             )
 
         try:
-            self.filter = getattr(backend.filters, '{}PartitionFilter'.format(
+            self.filter = getattr(backend.filters, '{0}PartitionFilter'.format(
                 self.opts.partition_type.capitalize()))(self.partition_show, **self.opts.__dict__)
         except AttributeError:
             import re

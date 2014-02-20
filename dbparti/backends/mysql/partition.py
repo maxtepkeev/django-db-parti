@@ -85,7 +85,7 @@ class RangePartition(Partition):
     def _get_name(self):
         """Dynamically defines new partition name depending on the partition subtype"""
         try:
-            return getattr(self, '_get_{}_name'.format(self.partition_subtype))()
+            return getattr(self, '_get_{0}_name'.format(self.partition_subtype))()
         except AttributeError:
             import re
             raise PartitionRangeSubtypeError(
@@ -97,7 +97,7 @@ class RangePartition(Partition):
 
     def _get_date_name(self):
         """Defines name for a new partition for date partition subtype"""
-        return '{}_{}'.format(self.table, self.datetime.get_name())
+        return '{0}_{1}'.format(self.table, self.datetime.get_name())
 
     def _get_partition_function(self):
         """Returns correct partition function depending on the MySQL column type"""

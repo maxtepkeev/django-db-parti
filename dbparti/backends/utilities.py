@@ -27,7 +27,7 @@ class DateTimeUtil(object):
     def get_period(self):
         """Dynamically returns beginning and an end depending on the given period"""
         try:
-            return getattr(self, '_get_{}_period'.format(self.period))()
+            return getattr(self, '_get_{0}_period'.format(self.period))()
         except AttributeError:
             import re
             raise PartitionRangeError(

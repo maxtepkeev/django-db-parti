@@ -22,7 +22,7 @@ class RangePartitionFilter(PartitionFilter):
     def apply(self):
         """Dynamically loads needed partition filter depending on the partition subtype"""
         try:
-            return getattr(self, '_get_{}_filter'.format(self.partition_subtype))()
+            return getattr(self, '_get_{0}_filter'.format(self.partition_subtype))()
         except AttributeError:
             import re
             raise PartitionRangeSubtypeError(
@@ -36,20 +36,20 @@ class RangePartitionFilter(PartitionFilter):
         """Contains a partition filter for date partition subtype"""
         ranges = {
             'year': [
-                "EXTRACT(YEAR FROM {}.{}) = EXTRACT(YEAR FROM {})",
+                "EXTRACT(YEAR FROM {0}.{1}) = EXTRACT(YEAR FROM {2})",
             ],
             'month': [
-                "EXTRACT(YEAR FROM {}.{}) = EXTRACT(YEAR FROM NOW())",
-                "EXTRACT(MONTH FROM {}.{}) = EXTRACT(MONTH FROM {})",
+                "EXTRACT(YEAR FROM {0}.{1}) = EXTRACT(YEAR FROM NOW())",
+                "EXTRACT(MONTH FROM {2}.{3}) = EXTRACT(MONTH FROM {4})",
             ],
             'week': [
-                "EXTRACT(YEAR FROM {}.{}) = EXTRACT(YEAR FROM NOW())",
-                "EXTRACT(WEEK FROM {}.{}) = EXTRACT(WEEK FROM {})",
+                "EXTRACT(YEAR FROM {0}.{1}) = EXTRACT(YEAR FROM NOW())",
+                "EXTRACT(WEEK FROM {2}.{3}) = EXTRACT(WEEK FROM {4})",
             ],
             'day': [
-                "EXTRACT(YEAR FROM {}.{}) = EXTRACT(YEAR FROM NOW())",
-                "EXTRACT(MONTH FROM {}.{}) = EXTRACT(MONTH FROM NOW())",
-                "EXTRACT(DAY FROM {}.{}) = EXTRACT(DAY FROM {})",
+                "EXTRACT(YEAR FROM {0}.{1}) = EXTRACT(YEAR FROM NOW())",
+                "EXTRACT(MONTH FROM {2}.{3}) = EXTRACT(MONTH FROM NOW())",
+                "EXTRACT(DAY FROM {4}.{5}) = EXTRACT(DAY FROM {6})",
             ],
         }
 
@@ -60,7 +60,7 @@ class RangePartitionFilter(PartitionFilter):
 
         shows = {
             'current': 'NOW()',
-            'previous': 'NOW() - INTERVAL 1 {}',
+            'previous': 'NOW() - INTERVAL 1 {0}',
         }
 
         try:

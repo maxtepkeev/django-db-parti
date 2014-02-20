@@ -13,23 +13,23 @@ class BasePartition(object):
 
     def prepare(self):
         """Prepares everything that is needed to initialize partitioning"""
-        raise NotImplementedError('Prepare method not implemented for partition type: {}'.format(self.__class__.__name__))
+        raise NotImplementedError('Prepare method not implemented for partition type: {0}'.format(self.__class__.__name__))
 
     def exists(self):
         """Checks if partition exists"""
-        raise NotImplementedError('Exists method not implemented for partition type: {}'.format(self.__class__.__name__))
+        raise NotImplementedError('Exists method not implemented for partition type: {0}'.format(self.__class__.__name__))
 
     def create(self):
         """Creates new partition"""
-        raise NotImplementedError('Create method not implemented for partition type: {}'.format(self.__class__.__name__))
+        raise NotImplementedError('Create method not implemented for partition type: {0}'.format(self.__class__.__name__))
 
     def _get_name(self):
         """Defines name for a new partition"""
-        raise NotImplementedError('Name method not implemented for partition type: {}'.format(self.__class__.__name__))
+        raise NotImplementedError('Name method not implemented for partition type: {0}'.format(self.__class__.__name__))
 
     def _get_partition_function(self):
         """Contains a partition function that is used to create new partitions at database level"""
-        raise NotImplementedError('Partition function method not implemented for partition type: {}'.format(self.__class__.__name__))
+        raise NotImplementedError('Partition function method not implemented for partition type: {0}'.format(self.__class__.__name__))
 
 
 class BasePartitionFilter(object):
@@ -42,4 +42,4 @@ class BasePartitionFilter(object):
 
     def apply(self):
         """Contains a filter that needs to be applied to queryset"""
-        raise NotImplementedError('Filter not implemented for type: {}'.format(self.__class__.__name__))
+        raise NotImplementedError('Filter not implemented for type: {0}'.format(self.__class__.__name__))
