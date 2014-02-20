@@ -22,7 +22,7 @@ class RangePartitionFilter(PartitionFilter):
     def apply(self):
         """Dynamically loads needed partition filter depending on the partition subtype"""
         try:
-            return getattr(self, '_get_{}_filter'.format(self.partition_subtype))()
+            return getattr(self, '_get_{0}_filter'.format(self.partition_subtype))()
         except AttributeError:
             import re
             raise PartitionRangeSubtypeError(
@@ -36,20 +36,20 @@ class RangePartitionFilter(PartitionFilter):
         """Contains a partition filter for date partition subtype"""
         ranges = {
             'year': [
-                "EXTRACT('year' FROM {}.{}) = EXTRACT('year' FROM {})",
+                "EXTRACT('year' FROM {0}.{1}) = EXTRACT('year' FROM {2})",
             ],
             'month': [
-                "EXTRACT('year' FROM {}.{}) = EXTRACT('year' FROM NOW())",
-                "EXTRACT('month' FROM {}.{}) = EXTRACT('month' FROM {})",
+                "EXTRACT('year' FROM {0}.{1}) = EXTRACT('year' FROM NOW())",
+                "EXTRACT('month' FROM {2}.{3}) = EXTRACT('month' FROM {4})",
             ],
             'week': [
-                "EXTRACT('year' FROM {}.{}) = EXTRACT('year' FROM NOW())",
-                "EXTRACT('week' FROM {}.{}) = EXTRACT('week' FROM {})",
+                "EXTRACT('year' FROM {0}.{1}) = EXTRACT('year' FROM NOW())",
+                "EXTRACT('week' FROM {2}.{3}) = EXTRACT('week' FROM {4})",
             ],
             'day': [
-                "EXTRACT('year' FROM {}.{}) = EXTRACT('year' FROM NOW())",
-                "EXTRACT('month' FROM {}.{}) = EXTRACT('month' FROM NOW())",
-                "EXTRACT('day' FROM {}.{}) = EXTRACT('day' FROM {})",
+                "EXTRACT('year' FROM {0}.{1}) = EXTRACT('year' FROM NOW())",
+                "EXTRACT('month' FROM {2}.{3}) = EXTRACT('month' FROM NOW())",
+                "EXTRACT('day' FROM {4}.{5}) = EXTRACT('day' FROM {6})",
             ],
         }
 
@@ -60,7 +60,7 @@ class RangePartitionFilter(PartitionFilter):
 
         shows = {
             'current': 'NOW()',
-            'previous': "NOW() - '1 {}'::interval",
+            'previous': "NOW() - '1 {0}'::interval",
         }
 
         try:

@@ -3,7 +3,7 @@ from dbparti.backends.exceptions import BackendError
 
 
 try:
-    backend = __import__('dbparti.backends.{}'.format(connection.vendor), fromlist='*')
+    backend = __import__('dbparti.backends.{0}'.format(connection.vendor), fromlist='*')
 except ImportError:
     import pkgutil, os
     raise BackendError(

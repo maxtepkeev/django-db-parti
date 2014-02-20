@@ -26,7 +26,7 @@ class Partitionable(models.Model):
             )
 
         try:
-            return getattr(backend.partition, '{}Partition'.format(
+            return getattr(backend.partition, '{0}Partition'.format(
                 self._meta.partition_type.capitalize()))(column_value, column_type, **self._meta.__dict__)
         except AttributeError:
             import re
