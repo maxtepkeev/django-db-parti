@@ -7,6 +7,7 @@ class BasePartition(object):
         self.cursor = connection.cursor()
         self.model = kwargs['object_name']
         self.table = kwargs['db_table']
+        self.partition_pk = kwargs['pk']
         self.partition_column = kwargs['partition_column']
         self.column_value = column_value
         self.column_type = column_type

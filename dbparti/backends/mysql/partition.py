@@ -16,7 +16,7 @@ class Partition(BasePartition):
         """Converts original table to partitioned one"""
         self.cursor.execute("""
             -- We need to rebuild primary key for our partitioning to work
-            ALTER table {parent_table} DROP PRIMARY KEY, add PRIMARY KEY (id, {partition_column});
+            ALTER table {parent_table} DROP PRIMARY KEY, add PRIMARY KEY ({pk}, {partition_column});
         """.format(
             parent_table=self.table,
             partition_column=self.partition_column,
@@ -31,6 +31,7 @@ class Partition(BasePartition):
                 SELECT 1 FROM information_schema.partitions
                 WHERE table_name='{parent_table}' AND partition_name='{partition_name}');
         """.format(
+            pk = self.partition_pk.column,
             parent_table=self.table,
             partition_name=self._get_name(),
         ))
