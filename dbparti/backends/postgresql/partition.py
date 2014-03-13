@@ -40,7 +40,7 @@ class Partition(BasePartition):
             CREATE OR REPLACE FUNCTION {parent_table}_delete_master()
             RETURNS TRIGGER AS $$
                 BEGIN
-                    DELETE FROM ONLY {parent_table} WHERE id = NEW.id;
+                    DELETE FROM ONLY {parent_table} WHERE {pk} = NEW.{pk};
                     RETURN NEW;
                 END;
             $$ LANGUAGE plpgsql;
@@ -49,7 +49,7 @@ class Partition(BasePartition):
             DO $$
             BEGIN
             IF NOT EXISTS(
-                SELECT 1 
+                SELECT 1
                 FROM information_schema.triggers
                 WHERE event_object_table = '{parent_table}'
                 AND trigger_name = 'after_insert_{parent_table}_trigger'
@@ -60,6 +60,7 @@ class Partition(BasePartition):
             END IF;
             END $$;
         """.format(
+            pk = self.partition_pk.column,
             parent_table=self.table,
             partition_function=self._get_partition_function()
         ))
