@@ -3,6 +3,13 @@
 Changelog
 ---------
 
+0.3.2 (2014-03-27)
+~~~~~~~~~~~~~~~~~~
+
+- Added automatic determination of primary key column name, previously this was hardcoded to ``id``
+  (thanks to `fjcapdevila <https://github.com/fjcapdevila>`__)
+- Python 2.6 compatibility (thanks to `Daniel Kontsek <https://github.com/dn0>`__)
+
 0.3.1 (2014-02-02)
 ~~~~~~~~~~~~~~~~~~
 
