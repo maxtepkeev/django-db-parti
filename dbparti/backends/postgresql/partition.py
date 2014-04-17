@@ -60,7 +60,7 @@ class Partition(BasePartition):
             END IF;
             END $$;
         """.format(
-            pk = self.partition_pk.column,
+            pk=self.partition_pk.column,
             parent_table=self.table,
             partition_function=self._get_partition_function()
         ))
