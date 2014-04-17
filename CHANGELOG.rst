@@ -3,6 +3,11 @@
 Changelog
 ---------
 
+0.3.3 (2014-04-17)
+~~~~~~~~~~~~~~~~~~
+
+- Fixed a bug with ``partition`` command not working for MySQL backend (Issue #11)
+
 0.3.2 (2014-03-27)
 ~~~~~~~~~~~~~~~~~~
 
